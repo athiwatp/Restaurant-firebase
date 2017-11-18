@@ -1,0 +1,84 @@
+<template>
+	<v-container>
+		<br>
+		<v-card>
+			<v-card-title>
+				<v-flex xs6>
+					<h4>{{ name }}</h4>
+				</v-flex>
+				<v-flex xs6>
+					<v-chip color="green" outline label>฿{{ price }}</v-chip>
+				</v-flex>
+			</v-card-title>
+			<v-layout row wrap>
+				<v-flex xs12 offset-xs4>
+					<img :src="imgSrc" alt="" >
+				</v-flex>
+				<v-card-title>
+					<p>Description: {{ description}}</p>
+				</v-card-title>
+				<v-flex xs12 offset-md8>
+					<v-spacer></v-spacer>
+					<v-btn primary light @click.prevent="addCart" class="white--text">Add to cart</v-btn>
+				</v-flex>
+			</v-layout>
+		</v-card>
+	</v-container>
+</template>
+
+
+<script>
+	import { ref, auth } from '../config/firebase'
+	export default{
+		data(){
+			return{
+				name: '',
+				description: '',
+				price: '',
+				imgSrc: '',
+				uid: '',
+				quantity: 1
+			}
+		},
+//		firebase: {
+//			selectedMenu: ref.child('Menu').child(this.paramId)
+//		},
+		created(){
+			let id = this.$route.params.id
+			var vm = this;
+			ref.child('Menu').child(id).once('value', snapshot => {
+				let snap = snapshot.val()
+				vm.name = snap.menuName,
+				vm.description = snap.description,
+				vm.price = snap.price,
+				vm.imgSrc = snap.imgSrc
+			})
+
+			auth.onAuthStateChanged(function(user) {
+				if (user) {
+					vm.uid = user.uid;
+				}
+			})
+		},
+		methods: {
+			addCart(){
+				var vm = this;
+				console.log(this.quantity)
+				ref.child('Carts').child(this.uid).child(this.name).set({
+					name: vm.name,
+					description: vm.description,
+					price: vm.price,
+					imgSrc: vm.imgSrc,
+					quantity: vm.quantity
+				})
+				alert(this.name + ' has been added to your cart')
+			}
+		}
+
+	}
+</script>
+
+
+<style>
+
+</style>

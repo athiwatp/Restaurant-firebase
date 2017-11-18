@@ -1,0 +1,118 @@
+<template>
+	<v-container>
+		<v-flex xs12 sm12 >
+			<v-card>
+				<v-card-title>
+					<h3 class="primary--text">Feedback</h3>
+				</v-card-title>
+				<v-card-text>
+				 	<p>Name: {{ firstName }} {{ lastName }}</p>
+					<v-select
+						:items="branches"
+					  	v-model="branch"
+					 	ref="branch"
+						label="Branch"
+						required>
+					</v-select>
+					<v-text-field
+						v-model="comment"
+						name="comment"
+						label="Comment"
+						type="text"
+						multi-line
+					></v-text-field>
+					<v-layout row wrap>
+						<v-subheader>Food Quality:</v-subheader>
+						<v-flex xs12>
+							<br>
+							<v-radio-group v-model="foodQuality" row>
+								<v-radio label="Excellent" value="4"></v-radio>
+								<v-radio label="Good" value="3"  color="success"></v-radio>
+	          				 	<v-radio label="Fair" value="2"  color="warning"></v-radio>
+								<v-radio label="Poor" value="1"  color="error"></v-radio>
+	           				 </v-radio-group>
+						</v-flex>
+						<v-flex xs12>
+							<div>
+								<v-subheader>Service:</v-subheader>
+								<v-flex xs12>
+									<br>
+									<v-radio-group v-model="service" row >
+										<v-radio label="Excellent" value="4"></v-radio>
+										<v-radio label="Good" value="3"  color="success"></v-radio>
+			          				 	<v-radio label="Fair" value="2"  color="warning"></v-radio>
+										<v-radio label="Poor" value="1"  color="error"></v-radio>
+			           				</v-radio-group>
+								</v-flex>
+							</div>
+						</v-flex>
+					</v-layout>
+				</v-card-text>
+			<v-btn block primary light @click.native.prevent="submitFeedback" class="white--text">Submit</v-btn>
+		</v-card>
+		</v-flex>
+	</v-container>
+</template>
+
+
+<script>
+	import { ref, auth } from '../config/firebase'
+
+	export default{
+		data(){
+			return{
+				branches: [],
+				branch: '',
+				uid: '',
+				comment: '',
+				foodQuality: '',
+				service: '',
+				firstName: '',
+				lastName: ''
+			}
+		},
+		created(){
+			var self = this;
+			ref.child('branches').once('value', snapshot =>{
+				var snap = snapshot.val();
+				var key = Object.keys(snap);
+				self.branches = key;
+			})
+
+			auth.onAuthStateChanged(function(user) {
+				if (user) {
+					self.uid = user.uid;
+
+					var vm = self;
+					ref.child('users').child(user.uid).once('value', snapshot => {
+						var snap = snapshot.val()
+						self.firstName = snap["firstName"]
+						self.lastName = snap["lastName"]
+					})
+				} else {
+					vm.$router.push({
+						name: 'Register'
+					});
+				}
+			});
+		},
+		methods: {
+			submitFeedback(){
+				var vm = this;
+				ref.child('Feedback').child(this.branch).child(this.uid).set({
+					branch: vm.branch,
+					comment: vm.comment,
+					foodQuality: vm.foodQuality,
+					service: vm.service
+				})
+				alert('Successfully submitted feedback')
+				this.$router.push({ name: 'View' })
+			}
+		}
+	}
+</script>
+
+
+<style>
+
+</style>
