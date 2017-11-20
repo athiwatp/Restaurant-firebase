@@ -11,7 +11,7 @@
 				</v-flex>
 			</v-card-title>
 			<v-layout row wrap>
-				<v-flex xs12 offset-xs4>
+				<v-flex fluid xs12 md6 offset-xs2 offset-md3>
 					<img :src="imgSrc" alt="" >
 				</v-flex>
 				<v-card-title>

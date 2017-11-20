@@ -18,7 +18,7 @@
 				<p>Subtotal: {{ subTotal(item.quantity, item.price) }} baht</p>
 			</v-flex>
 			<v-flex xs2 offset-sm2>
-				<v-btn @click="deleteItem(eachKey)">Delete</v-btn>
+				<v-btn @click.prevent="deleteItem(eachKey)">Delete</v-btn>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -30,6 +30,13 @@
 
 	export default{
 		props: ['item', 'eachKey', 'uid'],
+		// mounted() {
+		// 	console.log(this.eachKey)
+		// 	ref.child('Carts').child(this.uid).child(this.eachKey).update({quantity: this.item.quantity})
+		// },
+		updated(){
+			ref.child('Carts').child(this.uid).child(this.eachKey).update({quantity: this.item.quantity})
+		},
 		methods: {
 			deleteItem(key){
 				ref.child('Carts').child(this.uid).child(key).remove()

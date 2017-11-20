@@ -68,7 +68,8 @@
 				foodQuality: '',
 				service: '',
 				firstName: '',
-				lastName: ''
+				lastName: '',
+				isOrdered: false
 			}
 		},
 		created(){
@@ -86,8 +87,9 @@
 					var vm = self;
 					ref.child('users').child(user.uid).once('value', snapshot => {
 						var snap = snapshot.val()
-						self.firstName = snap["firstName"]
-						self.lastName = snap["lastName"]
+						vm.firstName = snap["firstName"]
+						vm.lastName = snap["lastName"]
+						vm.isOrdered = snap.isOrdered
 					})
 				} else {
 					vm.$router.push({
@@ -98,15 +100,20 @@
 		},
 		methods: {
 			submitFeedback(){
-				var vm = this;
-				ref.child('Feedback').child(this.branch).child(this.uid).set({
-					branch: vm.branch,
-					comment: vm.comment,
-					foodQuality: vm.foodQuality,
-					service: vm.service
-				})
-				alert('Successfully submitted feedback')
-				this.$router.push({ name: 'View' })
+				if(this.isOrdered){
+					var vm = this;
+					ref.child('Feedback').child(this.branch).child(this.uid).set({
+						branch: vm.branch,
+						comment: vm.comment,
+						foodQuality: vm.foodQuality,
+						service: vm.service
+					})
+					alert('Successfully submitted feedback')
+					this.$router.push({ name: 'View' })
+				}
+				else{
+					alert('No purchased found, cannot submit the feedback')
+				}
 			}
 		}
 	}

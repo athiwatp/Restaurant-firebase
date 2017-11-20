@@ -30,10 +30,9 @@
 		</v-layout>
 		<br>
 		<v-layout row wrap>
-			<v-flex xs12 sm6 offset-sm3>
+			<v-flex xs12 sm6 offset-sm1 offset-md3>
 				<v-date-picker
 					v-model="date"
-
 					landscape
 				 ></v-date-picker>
 			</v-flex>
@@ -41,7 +40,7 @@
 		<h4>{{ date }}</h4>
 		<br>
 		<v-layout row wrap>
-			<v-flex xs12 sm6 offset-sm3>
+			<v-flex xs12 sm6 md12 offset-sm1 offset-md3>
 				<v-time-picker
 					v-model="time"
 					landscape
@@ -107,27 +106,18 @@
 		},
 		methods: {
 			submitReserve(){
-				var self = this;
+				var vm = this;
 
-				ref.child('Tables').child('4').orderByChild('status').equalTo(true).once('value', snapshot => {
-					var vm = self;
-					var snap = snapshot.val()
-					console.log(snap)
-					if(snap !== null){
-						ref.child('Reserves').child(this.uid).push({
-						date: vm.date,
-						time: vm.time,
-						branch: vm.branch,
-						seats: vm.seats,
-						firstName: vm.firstName,
-						lastName: vm.lastName,
-						phone: vm.phone
-						})
-						alert('Successfully submitted Reserved')
-					}else{
-						alert('No seats available')
-					}
-				})
+				ref.child('Reserves').child(this.uid).push({
+					date: vm.date,
+					time: vm.time,
+					branch: vm.branch,
+					seats: vm.seats,
+					firstName: vm.firstName,
+					lastName: vm.lastName,
+					phone: vm.phone
+					})
+				alert('Successfully submitted Reserved')
 			}
 		},
 		computed:{
