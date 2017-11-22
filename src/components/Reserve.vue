@@ -10,6 +10,7 @@
 			<v-flex xs12 sm6 offset-sm3>
 				<div>
 					<br>
+
 					<h6>Name: {{ firstName }} {{ lastName }}</h6>
 				</div>
 				<v-select
@@ -59,6 +60,7 @@
 
 <script>
 	import { ref, auth } from '../config/firebase'
+	import Rating from 'vue-bulma-rating'
 
 	export default{
 		data(){
@@ -72,7 +74,8 @@
 				uid: '',
 				seats: 0,
 				type: 4,
-				phone: ''
+				phone: '',
+
 			}
 		},
 		created(){
@@ -119,9 +122,6 @@
 					})
 				alert('Successfully submitted Reserved')
 			}
-		},
-		computed:{
-
 		}
 	}
 </script>

@@ -17,6 +17,9 @@
 				<v-card-title>
 					<p>Description: {{ description}}</p>
 				</v-card-title>
+				<v-flex xs12 offset-xs1>
+					<rating :items="stars" class="starability-grow" legend="Rating:" :value="value" @change="update"></rating>
+				</v-flex>
 				<v-flex xs12 offset-md8>
 					<v-spacer></v-spacer>
 					<v-btn primary light @click.prevent="addCart" class="white--text">Add to cart</v-btn>
@@ -29,7 +32,12 @@
 
 <script>
 	import { ref, auth } from '../config/firebase'
+	import Rating from 'vue-bulma-rating'
+
 	export default{
+		components: {
+			Rating
+		},
 		data(){
 			return{
 				name: '',
@@ -37,7 +45,30 @@
 				price: '',
 				imgSrc: '',
 				uid: '',
-				quantity: 1
+				quantity: 1,
+				stars: [
+	        {
+	          title: '5 Stars',
+	          value: 5
+	        },
+	        {
+	          title: '4 Stars',
+	          value: 4
+	        },
+	        {
+	          title: '3 Stars',
+	          value: 3
+	        },
+	        {
+	          title: '2 Stars',
+	          value: 2
+	        },
+	        {
+	          title: '1 Star',
+	          value: 1
+	        }
+      	],
+				value: 0
 			}
 		},
 //		firebase: {
@@ -72,6 +103,9 @@
 					quantity: vm.quantity
 				})
 				alert(this.name + ' has been added to your cart')
+			},
+			update(val) {
+				this.value = value
 			}
 		}
 
