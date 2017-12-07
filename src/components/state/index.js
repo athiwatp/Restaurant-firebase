@@ -52,6 +52,9 @@ export const store = new Vuex.Store({
                     reject(err)
                 })
             })
+        },
+        autoSign({commit}, payload) {
+            commit('setUser', payload.uid)
         }
     },
     getters: {

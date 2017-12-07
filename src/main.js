@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
-
+import firebase from 'firebase'
 import VueRouter from 'vue-router'
 import Vuefire from 'vuefire'
 import Vuetify from 'vuetify'
@@ -25,13 +25,21 @@ const router = new VueRouter({
 	routes,
 });
 
-export const EventBus = new Vue();
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created() {
+    firebase.auth().onAuthStateChanged(user =>{
+      if(user){
+        console.log('App login')
+        this.$store.dispatch('autoSign', user)
+      }else{
+        console.log('App logout')
+      }
+    })
+  }
 })

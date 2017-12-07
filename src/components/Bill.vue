@@ -3,7 +3,7 @@
 		<v-card style="overflow: hidden;">
 			<v-navigation-drawer permanent absolute style="z-index: 1">
 				<v-list>
-					<v-list-tile ripple v-for="i in snap.slice().reverse()" @click.prevent="listTransaction(i)">
+					<v-list-tile ripple v-for="(i, index) in snap.slice().reverse()" @click.prevent="listTransaction(i)">
 						<v-list-tile-action>
 							<v-icon left color="green">check_circle</v-icon>
 						</v-list-tile-action>
