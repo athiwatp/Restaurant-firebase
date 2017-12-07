@@ -13,6 +13,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "ejs": "^2.5.7",
     "firebase": "^4.6.0",
     "moment": "^2.19.1",
     "vue": "^2.5.2",
