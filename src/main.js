@@ -11,10 +11,12 @@ import './stylus/main.styl'
 import App from './App'
 import { routes } from './router/index'
 import moment from 'moment'
+import { store } from './components/state/index'
 
 
 Vue.use(Vuetify)
 Vue.use(Vuefire)
+
 
 Vue.config.productionTip = false
 
@@ -29,6 +31,7 @@ export const EventBus = new Vue();
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

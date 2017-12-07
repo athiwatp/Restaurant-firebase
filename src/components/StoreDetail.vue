@@ -12,7 +12,7 @@
 			</v-card-title>
 			<v-layout row wrap>
 				<v-flex fluid xs12 md6 offset-xs2 offset-md3>
-					<img :src="imgSrc" alt="" >
+					<img :src="imgSrc" alt="">
 				</v-flex>
 				<v-card-title>
 					<p>Description: {{ description}}</p>
@@ -31,88 +31,104 @@
 
 
 <script>
-	import { ref, auth } from '../config/firebase'
+	import {
+		ref,
+		auth
+	} from '../config/firebase'
 	import Rating from 'vue-bulma-rating'
-
-	export default{
+	
+	export default {
 		components: {
 			Rating
 		},
-		data(){
-			return{
+		data() {
+			return {
 				name: '',
 				description: '',
 				price: '',
 				imgSrc: '',
 				uid: '',
+				isMember: false,
 				quantity: 1,
-				stars: [
-	        {
-	          title: '5 Stars',
-	          value: 5
-	        },
-	        {
-	          title: '4 Stars',
-	          value: 4
-	        },
-	        {
-	          title: '3 Stars',
-	          value: 3
-	        },
-	        {
-	          title: '2 Stars',
-	          value: 2
-	        },
-	        {
-	          title: '1 Star',
-	          value: 1
-	        }
-      	],
+				stars: [{
+						title: '5 Stars',
+						value: 5
+					},
+					{
+						title: '4 Stars',
+						value: 4
+					},
+					{
+						title: '3 Stars',
+						value: 3
+					},
+					{
+						title: '2 Stars',
+						value: 2
+					},
+					{
+						title: '1 Star',
+						value: 1
+					}
+				],
 				value: 0
 			}
 		},
-//		firebase: {
-//			selectedMenu: ref.child('Menu').child(this.paramId)
-//		},
-		created(){
+		//		firebase: {
+		//			selectedMenu: ref.child('Menu').child(this.paramId)
+		//		},
+		computed: {
+			user() {
+				return this.$store.getters.user
+			}
+		},
+		created() {
 			let id = this.$route.params.id
-			var vm = this;
+			var vm = this
 			ref.child('Menu').child(id).once('value', snapshot => {
 				let snap = snapshot.val()
 				vm.name = snap.menuName,
-				vm.description = snap.description,
-				vm.price = snap.price,
-				vm.imgSrc = snap.imgSrc
+					vm.description = snap.description,
+					vm.price = snap.price,
+					vm.imgSrc = snap.imgSrc
 			})
-
-			auth.onAuthStateChanged(function(user) {
-				if (user) {
-					vm.uid = user.uid;
-				}
-			})
+	
+			// auth.onAuthStateChanged(function(user) {
+			// 	if (user) {
+			// 		self.uid = user.uid
+			// 	}
+			// })
 		},
 		methods: {
-			addCart(){
-				var vm = this;
-				console.log(this.quantity)
-				ref.child('Carts').child(this.uid).child(this.name).set({
-					name: vm.name,
-					description: vm.description,
-					price: vm.price,
-					imgSrc: vm.imgSrc,
-					quantity: vm.quantity
-				})
-				alert(this.name + ' has been added to your cart')
+			addCart() {
+				if (this.user !== null) {
+					var vm = this;
+					// console.log(this.quantity)
+					ref.child('Carts').child(this.user).child(this.name).set({
+						name: vm.name,
+						description: vm.description,
+						price: vm.price,
+						imgSrc: vm.imgSrc,
+						quantity: vm.quantity
+					}).then( () => {
+						alert(this.name + ' has been added to your cart')
+					}).catch(err => {
+						alert(err)
+					})
+				}else {
+					alert('Please Sign in')
+				}
+	
 			},
 			update(val) {
 				this.value = value
 			}
 		}
-
+	
 	}
 </script>
 
 
 <style>
-
+	
 </style>

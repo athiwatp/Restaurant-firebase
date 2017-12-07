@@ -42,30 +42,70 @@
 				password: ''
 			}
 		},
+		// created(){
+		// 	var vm = this
+		// 	auth.onAuthStateChanged(function(user) {
+		// 		if(user){
+		// 			vm.isLogin = true;
+		// 			console.log('login')
+		// 		}else{
+		// 			vm.isLogin = false;
+		// 			console.log('logout')
+		// 		}
+		// 	})
+		// },
+		computed:{
+			user(){
+				return this.$store.getters.user
+			}
+		},
 		methods: {
 			loginWithEmailLocal() {
 				var vm = this;
-				auth.signInWithEmailAndPassword(this.email, this.password)
-					.then(function(value) {
-						alert('Successfully sign in')
-						console.log(value)
-						vm.$router.push({
-							name: 'HomePage'
+				if(this.user === null){
+					console.log('user: null')
+					this.$store.dispatch('signIn', {email: this.email, password: this.password})
+						.then( () => {
+							alert('Successfully sign in')
+							vm.$router.push({
+								name: 'HomePage'
+							})
+						}).catch(err => {
+							alert(err)
 						})
-					})
-					.catch(function(error) {
-						// Handle Errors here.
-						var errorCode = error.code;
-						var errorMessage = error.message;
-						alert(errorMessage)
-					})
+				}else{
+					alert('You already sign in')
+				}
+				// if(!this.isLogin){
+				// 	auth.signInWithEmailAndPassword(this.email, this.password)
+				// 	.then(function(value) {
+				// 		alert('Successfully sign in')
+				// 		vm.$router.push({
+				// 			name: 'HomePage'
+				// 		})
+				// 	})
+				// 	.catch(function(error) {
+				// 		// Handle Errors here.
+				// 		console.log(error)
+				// 		var errorCode = error.code;
+				// 		var errorMessage = error.message;
+				// 		alert(errorMessage)
+				// 	})
+				// }else{
+				// 	alert('Already login')
+				// }
 			},
 			logOut() {
-				auth.signOut().then(function() {
-					alert('Signed Out');
-				}, function(error) {
-					alert('Sign Out Error', error);
-				});
+				// auth.signOut().then(function() {
+				// 	alert('Signed Out');
+				// }, function(error) {
+				// 	alert('Sign Out Error', error);
+				// });
+				this.$store.dispatch('signOut').then( () => {
+					alert('Signed Out')
+				}).catch(err => {
+					alert(err)
+				})
 			},
 			registerRoute() {
 				this.$router.push({

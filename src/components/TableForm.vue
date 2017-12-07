@@ -9,7 +9,6 @@
 					<p>{{ key }}</p>
 					<p>{{tab.tableNo}} : {{tab.status}} <v-btn @click.prevent="revert(tab.status, key, keys)">Reserve</v-btn></p>
 				</div>
-
 			</div>
 		</v-card>
 		<v-card>

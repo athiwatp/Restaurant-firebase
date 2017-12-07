@@ -1,11 +1,14 @@
 <template>
 	<v-container fluid>
-		<br>
-		<h3>JSON STRUCTURE INSIDE FIREBASE</h3>
-		<hr>
-		<br>
-  		<pre>{{ database }}</pre>
-		
+		<v-layout>
+			<v-flex>
+				<br>
+				<h3>JSON STRUCTURE INSIDE FIREBASE</h3>
+				<hr>
+				<br>
+				<pre>{{ database }}</pre>
+			</v-flex>
+		</v-layout>
 	</v-container>
 	
 </template>

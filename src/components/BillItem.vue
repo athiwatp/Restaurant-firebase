@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
         <div class="ma-3" v-for="(i, key) in item">
-          <div v-if="key !== 'date' && key !== 'time' && key !== 'discount' && key !== 'totalPrice'">
+          
             <v-card color="blue base" class="white--text" >
               <v-container>
                 <v-layout xs7>
@@ -24,7 +24,6 @@
                  </v-flex>
               </v-container>
             </v-card>
-          </div>
         </div>
   </v-container>
 </template>
@@ -34,7 +33,7 @@ export default {
   props: ['item'],
   methods: {
     subTotal(quantity, price){
-      return quantity*price
+      return quantity * price
     }
   }
 }

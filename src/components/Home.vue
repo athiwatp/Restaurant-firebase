@@ -21,9 +21,8 @@
 		},
 		created(){
 			var vm = this
-			ref.child('Menu').once('value', snapshot => {
+			ref.child('Menu').on('value', snapshot => {
 				vm.items = snapshot.val()
-			
 			})
 			
 		}

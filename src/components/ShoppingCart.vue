@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container fluid>
 		<table id="cart" class="table table-hover table-condensed">
 			<thead>
 				<tr>
@@ -17,46 +17,45 @@
 				</tr>
 			</thead>
 			<div v-for="(item, key) in list" tag="tbody">
-				<v-layout row >
-					<app-cart-item :item="item" :eachKey="key" :uid="uid"></app-cart-item>
+				<v-layout row>
+					<app-cart-item :item="item" :eachKey="key" :uid="user"></app-cart-item>
 				</v-layout>
 			</div>
-
-
+	
+	
 			<v-layout row wrap>
 				<v-flex xs6 offset-sm6>
-					<v-text-field
-						v-model="discount"
-						name="discount"
-						label="Coupon"
-						type="text"
-					></v-text-field>
+					<v-text-field v-model="discount" name="discount" label="Coupon" type="text"></v-text-field>
 				</v-flex>
 				<v-flex xs6 offset-sm6>
-						<p>Total: {{ totalPrice }}</p>
+					<p>Total: {{ totalPrice }}</p>
 				</v-flex>
-
+	
 				<v-flex v-if="isDiscount" xs6 offset-sm6>
-					<v-chip label outline color="green" >
+					<v-chip label outline color="green">
 						<v-icon left>monetization_on</v-icon>
 						Discount: {{ discountValue }}
 					</v-chip>
 				</v-flex>
-
+	
 				<v-btn @click.prevent="submitCart">Submit</v-btn>
 			</v-layout>
-
+	
 		</table>
 	</v-container>
 </template>
 
 <script>
-	import { ref, auth } from '../config/firebase'
+	import {
+		ref,
+		auth
+	} from '../config/firebase'
 	import CartItem from './CartItem.vue'
-
+	import moment from 'moment'
+	
 	export default {
-		data(){
-			return{
+		data() {
+			return {
 				uid: '',
 				list: [],
 				discount: '',
@@ -68,110 +67,134 @@
 		components: {
 			appCartItem: CartItem
 		},
-		created(){
-			var self = this;
-			auth.onAuthStateChanged(function(user) {
-				if (user) {
-					var vm = self;
-					self.uid = user.uid
+		created() {
+			var vm = this;
+			// auth.onAuthStateChanged(function(user) {
+			// 	if (user) {
+			// 		var vm = self;
+			// 		self.uid = user.uid
+	
+			// 		ref.child('users').child(user.uid).on('value', snapshot => {
+			// 			var snap = snapshot.val()
+	
+			// 			console.log(snap);
+			// 			vm.isMember = snap.isMember
+			// 		})
+	
+			// 		ref.child('Carts').child(user.uid).on('value', snapshot => {
+			// 			vm.list = snapshot.val()
+			// 		})
+			// 	}else{
+			// 		alert('Please Sign in')
+			// 		self.$router.push({
+			// 			name: 'SignIn'
+			// 		})
+			// 	}
+			// })
+			if (this.user !== null) {
+				ref.child('users').child(this.user).on('value', snapshot => {
+					var snap = snapshot.val()
+					vm.isMember = snap.isMember
+				})
 
-					ref.child('users').child(user.uid).on('value', snapshot => {
-						var snap = snapshot.val()
-						vm.isMember = snap.isMember
-					})
-
-					ref.child('Carts').child(user.uid).on('value', snapshot => {
-						vm.list = snapshot.val()
-					})
-				}else{
-					alert('Please Sign in')
-					self.$router.push({
-						name: 'SignIn'
-					})
-				}
-			})
-
+				ref.child('Carts').child(this.user).on('value', snapshot => {
+					var snap = snapshot.val()
+					vm.list = snap
+				})
+	
+			} else {
+				alert('Please Sign in')
+				this.$router.push({
+					name: 'SignIn'
+				})
+			}
+	
 			ref.child('Discounts').once('value', snapshot => {
 				var snap = snapshot.val()
-				self.coupon = snap
+				vm.coupon = snap
 			})
 		},
 		computed: {
-
-			totalPrice(){
+	
+			totalPrice() {
 				let total = 0
-				for(var key in this.list){
+				for (var key in this.list) {
 					total = parseFloat(this.list[key].price) * this.list[key].quantity + total
 				}
-
-				for(var key in this.coupon){
-					if(this.discount === key ){
+	
+				for (var key in this.coupon) {
+					if (this.discount === key) {
 						total = total - this.coupon[key].discount
 						this.isDiscount = true
-					}else{
+					} else {
 						this.isDiscount = false
 					}
 				}
-
-				if(total < 0){
+	
+				if (total < 0) {
 					total = 0
 				}
-
+	
 				return total
 			},
-			discountValue(){
+			discountValue() {
 				var discount = 0
-				for(var key in this.coupon){
+				for (var key in this.coupon) {
 					discount = this.coupon[key].discount
 					console.log(discount)
 				}
 				return discount
+			},
+			user() {
+				return this.$store.getters.user
 			}
 		},
 		methods: {
-			deleteItem(key){
-				ref.child('Carts').child(this.uid).child(key).remove()
+			deleteItem(key) {
+				ref.child('Carts').child(this.user).child(key).remove()
 			},
-			submitCart(){
-				if(this.isMember){
-
-					ref.child('Carts').child(this.uid).once('value', snap => {
-						var newKey = ref.child('Transactions').child(this.uid).push().key
-	//					var updates = {}
-	//					updates['/Transactions/' + this.uid + newKey] = snap.val()
-						ref.child('Transactions').child(this.uid).child(newKey).set(snap.val(), error => {
-							if(!error){
-								var date = new Date()
-								ref.child('Transactions').child(this.uid).child(newKey).update({date: date.toLocaleDateString(), time: date.toLocaleTimeString(), totalPrice: this.totalPrice, discount: this.isDiscount})
-								ref.child('Carts').child(this.uid).remove()
-							}else{
+			submitCart() {
+				if (this.isMember) {
+					ref.child('Carts').child(this.user).once('value', snap => {
+						var newKey = ref.child('Transactions').child(this.user).push().key
+						//					var updates = {}
+						//					updates['/Transactions/' + this.uid + newKey] = snap.val()
+						ref.child('Transactions').child(this.user).child(newKey).child('list').set(snap.val(), error => {
+							if (!error) {
+								ref.child('Transactions').child(this.user).child(newKey).child('info').update({
+									date: moment().format('L'),
+									time: moment().format('LTS'),
+									totalPrice: this.totalPrice,
+									discount: this.isDiscount
+								})
+								ref.child('Carts').child(this.user).remove()
+							} else {
 								alert(error)
 							}
 						})
 					})
-					ref.child('users').child(this.uid).update({
+					ref.child('users').child(this.user).update({
 						isOrdered: true
 					})
-				}else{
+				} else {
 					alert('You must be a member, in order to make an order')
 				}
 			}
 		}
 	}
-
-
-//					ref.child('Transactions').child(this.uid).push(snap.val(), error => {
-//						if(!error) {
-//							var date = new Date()
-//							ref.child('Transactions').child(this.uid).update({date: date.toLocaleDateString(), time: date.toLocaleTimeString(), totalPrice: this.totalPrice, discount: this.isDiscount})
-//							ref.child('Carts').child(this.uid).remove()
-//						}else {
-//							alert(error)
-//						}
-//					})
-
+	
+	
+	//					ref.child('Transactions').child(this.uid).push(snap.val(), error => {
+	//						if(!error) {
+	//							var date = new Date()
+	//							ref.child('Transactions').child(this.uid).update({date: date.toLocaleDateString(), time: date.toLocaleTimeString(), totalPrice: this.totalPrice, discount: this.isDiscount})
+	//							ref.child('Carts').child(this.uid).remove()
+	//						}else {
+	//							alert(error)
+	//						}
+	//					})
 </script>
 
 <style>
-
+	
 </style>

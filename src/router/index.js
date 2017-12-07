@@ -14,6 +14,7 @@ import SignIn from '../components/SignIn.vue'
 import Bill from '../components/Bill.vue'
 import TableForm from '../components/TableForm.vue'
 import ReserveList from '../components/ReserveList.vue'
+import LogOut from '../components/LogOut.vue'
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ export const routes = [
 		path: '/reserveList',
 		name: 'ReserveList', 
 		component: ReserveList
+	},
+	{
+		path: '/logOut',
+		name: 'LogOut',
+		component: LogOut
 	},
 	{
 		path: '*',
