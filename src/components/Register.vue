@@ -12,6 +12,7 @@
 					<v-text-field v-model="firstName" name="firstName" label="firstName:" type="text" required></v-text-field>
 					<v-text-field v-model="lastName" name="lastName" label="lastName:" type="text" required></v-text-field>
 					<v-text-field v-model="phone" name="phone" label="Phone" type="number"></v-text-field>
+					<v-text-field v-model="address" name="address" label="Address" type="text" multi-line></v-text-field>
 					<v-btn block primary light class="white--text" @click.native.prevent="loginWithEmailLocal">Sign Up</v-btn>
 				</v-card-text>
 			</v-card>
@@ -49,7 +50,8 @@
 				lastName: '',
 				phone: '',
 				isMember: false,
-				isOrdered: false
+				isOrdered: false,
+				address: ''
 			}
 		},
 		computed: {
@@ -94,7 +96,7 @@
 				// 	alert('Please fullfil the fields')
 				// }
 				var vm = this;
-				if (this.firstName && this.lastName && this.phone !== '') {
+				if (this.firstName && this.lastName) {
 					this.$store.dispatch('signUp', {
 							email: this.email,
 							password: this.email
@@ -105,7 +107,8 @@
 								lastName: vm.lastName,
 								phone: vm.phone,
 								isMember: vm.isMember,
-								isOrdered: vm.isOrdered
+								isOrdered: vm.isOrdered,
+								address: vm.address
 							})
 							alert('Successfuly register')
 							vm.$router.push({

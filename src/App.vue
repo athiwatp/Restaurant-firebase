@@ -185,14 +185,19 @@
 							link: '/reserveList'
 						},
 						{
-							icon: 'lock_open',
-							title: 'Sign in',
-							link: '/login'
-						},
-						{
 							icon: 'check_circle',
 							title: 'Bill',
 							link: '/bill'
+						},
+						{
+							icon: 'feedback',
+							title: 'FeedBack',
+							link: '/feedBack'
+						},
+						{
+							icon: 'face',
+							title: 'Profile',
+							link: '/profile'
 						},
 						{
 							icon: 'lock',

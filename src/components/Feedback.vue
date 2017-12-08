@@ -6,6 +6,7 @@
 					<h3 class="primary--text">Feedback</h3>
 				</v-card-title>
 				<v-card-text>
+					<p>{{user}}</p>
 					<p>Name: {{ firstName }} {{ lastName }}</p>
 					<v-select :items="branches" v-model="branch" ref="branch" label="Branch" required>
 					</v-select>
@@ -91,7 +92,7 @@
 		},
 		created() {
 			var self = this;
-			ref.child('branches').once('value', snapshot => {
+			ref.child('branches').on('value', snapshot => {
 				var snap = snapshot.val();
 				var key = Object.keys(snap);
 				self.branches = key;
@@ -117,13 +118,14 @@
 	
 			if (this.user !== null) {
 				var vm = this;
-				ref.child('users').child(this.user).once('value', snapshot => {
+				ref.child('users').child(this.user).on('value', snapshot => {
 					var snap = snapshot.val()
 					vm.firstName = snap["firstName"]
 					vm.lastName = snap["lastName"]
-					vm.isOrdered = snap.isOrdered
+					vm.isOrdered = snap["isOrdered"]
+					console.log('order' + vm.isOrdered)
 				})
-			}else{
+			} else {
 				alert('Please sign in')
 				this.$router.push({
 					name: 'SignIn'
@@ -132,21 +134,23 @@
 		},
 		methods: {
 			submitFeedback() {
-				if (this.isOrdered) {
-					var vm = this;
-					ref.child('Feedback').child(this.branch).child(this.user).set({
-						branch: vm.branch,
-						comment: vm.comment,
-						foodQuality: vm.foodQuality,
-						service: vm.service
-					})
-					alert('Successfully submitted feedback')
-					this.$router.push({
-						name: 'View'
-					})
-				} else {
-					alert('No purchased found, cannot submit the feedback')
-				}
+					if (this.isOrdered) {
+						var vm = this;
+						ref.child('Feedback').child(this.branch).child(this.user).set({
+							branch: vm.branch,
+							comment: vm.comment,
+							foodQuality: vm.foodQuality,
+							service: vm.service
+						}).then(() => {
+							alert('Successfully submitted feedback')
+							this.$router.push({
+								name: 'View'
+							})
+						})
+					} else {
+						alert('No purchased found, cannot submit the feedback')
+					}
+	
 			},
 			update(val) {
 				this.value = val

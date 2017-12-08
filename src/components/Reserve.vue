@@ -1,17 +1,16 @@
 <template>
 	<v-container>
-		<v-layout row>
-			<v-flex xs12 sm6 offset-sm3>
+		<v-layout row wrap>
+			<v-flex class="text-xs-center">
 				<br>
 				<h4 class="primary--text">Reserve The Table</h4>
 			</v-flex>
 		</v-layout>
 		<div v-if="user">
-			<v-layout row>
+			<v-layout row wrap>
 				<v-flex xs12 sm6 offset-sm3>
 					<div>
 						<br>
-						<h6>{{user}}</h6>
 						<h6>Name: {{ firstName }} {{ lastName }}</h6>
 					</div>
 					<v-select :items="branches" v-model="branch" ref="branch" label="Branch" required>
@@ -22,15 +21,21 @@
 			</v-layout>
 			<br>
 			<v-layout row wrap>
-				<v-flex xs12 sm6 offset-sm1 offset-md3>
-					<v-date-picker v-model="date" landscape></v-date-picker>
+				<v-flex xs12 sm6 offset-sm3>
+					<v-date-picker class="hidden-sm-and-down" v-model="date" landscape></v-date-picker>
+				</v-flex>
+				<v-flex xs12 sm6 offset-xs2 offset-sm3 offset-md3>
+					<v-date-picker class="hidden-md-and-up" v-model="date"></v-date-picker>
 				</v-flex>
 			</v-layout>
 			<h4>{{ date }}</h4>
 			<br>
 			<v-layout row wrap>
-				<v-flex xs12 sm6 md12 offset-sm1 offset-md3>
-					<v-time-picker v-model="time" landscape></v-time-picker>
+				<v-flex xs12 sm6 offset-sm3>
+					<v-time-picker class="hidden-sm-and-down" v-model="time" landscape></v-time-picker>
+				</v-flex>
+				<v-flex xs12 sm6 offset-xs2 offset-sm3 offset-md3>
+					<v-time-picker class="hidden-md-and-up" v-model="time"></v-time-picker>
 				</v-flex>
 			</v-layout>
 			<h4>{{ time }}</h4>
@@ -44,7 +49,7 @@
 			<v-layout>
 				<v-layout row wrap align-center>
 					<v-flex class="text-xs-center">
-							<h3>No data</h3>
+						<h3>No data</h3>
 					</v-flex>
 				</v-layout>
 			</v-layout>
@@ -99,19 +104,19 @@
 			// 		});
 			// 	}
 			// });
-			if(this.user !== null){
+			if (this.user !== null) {
 				ref.child('users').child(this.user).once('value', snapshot => {
-						var snap = snapshot.val()
-						vm.firstName = snap["firstName"]
-						vm.lastName = snap["lastName"]
-						vm.phone = snap["phone"]
+					var snap = snapshot.val()
+					vm.firstName = snap["firstName"]
+					vm.lastName = snap["lastName"]
+					vm.phone = snap["phone"]
 				})
-
+	
 				ref.child('branches').once('value', snapshot => {
-				var snap = snapshot.val();
-				var key = Object.keys(snap);
-				console.log(key)
-				vm.branches = key;
+					var snap = snapshot.val();
+					var key = Object.keys(snap);
+					console.log(key)
+					vm.branches = key;
 				})
 			}
 		},
@@ -130,11 +135,11 @@
 				}).then(() => {
 					alert('Successfully submitted Reserved')
 				})
-				
+	
 			}
 		},
 		computed: {
-			user(){
+			user() {
 				return this.$store.getters.user
 			}
 		}
