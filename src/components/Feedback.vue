@@ -37,8 +37,6 @@
 							</div>
 						</v-flex>
 					</v-layout>
-					<rating :items="stars" class="starability-grow" legend="Star rating:" :value="value" @change="update"></rating>
-				</v-card-text>
 				</v-card-text>
 				<v-btn block primary light @click.native.prevent="submitFeedback" class="white--text">Submit</v-btn>
 			</v-card>

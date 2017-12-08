@@ -142,6 +142,9 @@
 			user() {
 				return this.$store.getters.user
 			}
+		},
+		computed:{
+
 		}
 	}
 </script>
