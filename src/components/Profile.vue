@@ -6,7 +6,7 @@
                     <v-card>
                         <br>
                         <v-card-title>
-                            <h4 class="text-center">Profile</h4>
+                            <h4 class="text-xs-center">Profile</h4>
                         </v-card-title>
                         <v-card-text>
                             <v-text-field v-model="firstName" name="firstName" label="firstName" type="text" required></v-text-field>
@@ -14,10 +14,10 @@
                             <v-text-field v-model="phone" name="phone" label="Phone" type="number"></v-text-field>
                             <v-text-field v-model="address" name="address" label="Address" type="text" multi-line></v-text-field>
                             <v-layout wrap>
-                                <v-flex xs1>
+                                <v-flex xs2>
                                     <v-subheader>Status: </v-subheader>
                                 </v-flex>
-                                <v-flex>
+                                <v-flex xs10>
                                     <div v-if="isMember">
                                         <v-chip outline color="green">Member</v-chip>
                                     </div>
@@ -27,10 +27,10 @@
                                 </v-flex>
                             </v-layout>
                             <v-layout wrap>
-                                <v-flex xs1>
+                                <v-flex xs2>
                                     <v-subheader>Receipt: </v-subheader>
                                 </v-flex>
-                                <v-flex>
+                                <v-flex xs10>
                                     <div v-if="isOrdered">
                                         <v-chip outline color="green">Yes</v-chip>
                                     </div>

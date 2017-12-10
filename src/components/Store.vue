@@ -30,14 +30,6 @@
 			user(){
 				return this.$store.getters.user
 			}
-		},
-		created(){
-			// var self = this
-			// auth.onAuthStateChanged(function(user) {
-			// 	if (user) {
-			// 		self.uid = user.uid;
-			// 	}
-			// });
 		}
 //		},
 //		created(){

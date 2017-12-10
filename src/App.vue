@@ -16,7 +16,7 @@
 		<v-toolbar fixed app :clipped-left="clipped">
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title>
-				<router-link to="/" tag="span" style="cursor: pointer">Restaurant</router-link>
+				<router-link to="/" tag="span" style="cursor: pointer"><v-icon>tag_faces</v-icon> Halal Ju Ku</router-link>
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn flat v-for="(item, i) in menuItem" :key="i" router :to="item.link">
@@ -148,11 +148,6 @@
 						icon: 'lock_open',
 						title: 'Sign in',
 						link: '/login'
-					},
-					{
-						icon: 'schedule',
-						title: 'Reservation',
-						link: '/reserve'
 					},
 					{
 						icon: 'restaurant_menu',

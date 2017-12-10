@@ -1,6 +1,8 @@
 <template>
 	<v-container fluid>
-		<v-card>
+		<v-layout>
+			<v-flex sm6 offset-sm3>
+				<v-card>
 			<v-card-title>
 				<h3>Menu Form</h3>
 			</v-card-title>
@@ -37,6 +39,8 @@
 			</v-card-text>
 			<v-btn block primary light @click.native.prevent="submitMenu">Submit</v-btn>
 		</v-card>
+			</v-flex>
+		</v-layout>
 	</v-container>
 </template>
 

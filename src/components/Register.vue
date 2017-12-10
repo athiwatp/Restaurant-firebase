@@ -49,7 +49,7 @@
 				firstName: '',
 				lastName: '',
 				phone: '',
-				isMember: false,
+				isMember: true,
 				isOrdered: false,
 				address: ''
 			}
@@ -99,7 +99,7 @@
 				if (this.firstName && this.lastName) {
 					this.$store.dispatch('signUp', {
 							email: this.email,
-							password: this.email
+							password: this.password
 						})
 						.then(() => {
 							ref.child('users').child(this.user).set({

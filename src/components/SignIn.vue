@@ -63,7 +63,6 @@
 			loginWithEmailLocal() {
 				var vm = this;
 				if(this.user === null){
-					console.log('user: null')
 					this.$store.dispatch('signIn', {email: this.email, password: this.password})
 						.then( () => {
 							alert('Successfully sign in')

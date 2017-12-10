@@ -15,7 +15,7 @@
 
 
 <script>
-	import firebase, {
+	import  {
 		ref
 	} from '../config/firebase'
 

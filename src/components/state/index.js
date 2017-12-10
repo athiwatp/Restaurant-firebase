@@ -32,14 +32,17 @@ export const store = new Vuex.Store({
         },
         signIn({commit}, payload) {
             return new Promise((resolve, reject) => {
-                auth.signInWithEmailAndPassword(payload.email, payload.password).then(
-                    user => {
+                auth.signInWithEmailAndPassword(payload.email, payload.password)
+                .then(user => {
                         const uid = user.uid
                         commit('setUser', uid)
                         resolve()
                     }
-                ).catch(err => {
-                    reject(err)
+                ).catch(error => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log('passw: ' + payload.password)
+                    reject(error)
                 })
             })
         },

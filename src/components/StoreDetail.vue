@@ -10,9 +10,10 @@
 					<v-chip color="green" outline label>฿{{ price }}</v-chip>
 				</v-flex>
 			</v-card-title>
+			<v-container fluid>
 			<v-layout row wrap>
-				<v-flex fluid xs12 md6 offset-xs2 offset-md3>
-					<img :src="imgSrc" alt="">
+				<v-flex class="text-xs-center" xs12>
+					<img :src="imgSrc" alt="" width="200px">
 				</v-flex>
 				<v-card-title>
 					<p>Description: {{ description}}</p>
@@ -22,6 +23,8 @@
 					<v-btn primary light @click.prevent="addCart" class="white--text">Add to cart</v-btn>
 				</v-flex>
 			</v-layout>
+			</v-container>
+			
 		</v-card>
 	</v-container>
 </template>
@@ -32,12 +35,8 @@
 		ref,
 		auth
 	} from '../config/firebase'
-	import Rating from 'vue-bulma-rating'
 	
 	export default {
-		components: {
-			Rating
-		},
 		data() {
 			return {
 				name: '',
@@ -85,12 +84,12 @@
 						price: vm.price,
 						imgSrc: vm.imgSrc,
 						quantity: vm.quantity
-					}).then( () => {
+					}).then(() => {
 						alert(this.name + ' has been added to your cart')
 					}).catch(err => {
 						alert(err)
 					})
-				}else {
+				} else {
 					alert('Please Sign in')
 				}
 	

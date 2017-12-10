@@ -1,30 +1,23 @@
 <template>
-	<v-container fluid>
+	<v-container >
 		<table id="cart" class="table table-hover table-condensed">
 			<thead>
 				<tr>
-					<th style="width:65%">Product</th>
-					<th style="width:10%">Price</th>
+					<th style="width:100%">Cart</th>
+					<!-- <th style="width:10%">Price</th>
 					<th style="width:10%">
 						<span class="hidden-sm-and-down">Quantity</span>
 						<span class="hidden-md-and-up">Quan.</span>
-					</th>
-					<th style="width:10%">
-						<span class="hidden-sm-and-down">Subtotal</span>
-						<span class="hidden-md-and-up">Sub.</span>
-					</th>
-					<th style="width:5%"></th>
+					</th> -->
 				</tr>
 			</thead>
-			<div v-for="(item, key) in list" tag="tbody">
-				<v-layout row>
+			<div v-for="(item, key) in list" >
+				<v-layout row wrap>
 					<app-cart-item :item="item" :eachKey="key" :uid="user"></app-cart-item>
 				</v-layout>
 			</div>
-	
-	
 			<v-layout row wrap>
-				<v-flex xs6 offset-sm6>
+				<v-flex xs4 offset-sm6 >
 					<v-text-field v-model="discount" name="discount" label="Coupon" type="text"></v-text-field>
 				</v-flex>
 				<v-flex xs6 offset-sm6>
@@ -96,7 +89,7 @@
 					var snap = snapshot.val()
 					vm.isMember = snap.isMember
 				})
-
+	
 				ref.child('Carts').child(this.user).on('value', snapshot => {
 					var snap = snapshot.val()
 					vm.list = snap
@@ -147,6 +140,9 @@
 			},
 			user() {
 				return this.$store.getters.user
+			},
+			toArr(){
+				return Object.values(this.list)
 			}
 		},
 		methods: {
@@ -154,7 +150,7 @@
 				ref.child('Carts').child(this.user).child(key).remove()
 			},
 			submitCart() {
-				if (this.isMember) {
+				// if (this.isMember) {
 					ref.child('Carts').child(this.user).once('value', snap => {
 						var newKey = ref.child('Transactions').child(this.user).push().key
 						//					var updates = {}
@@ -176,9 +172,9 @@
 					ref.child('users').child(this.user).update({
 						isOrdered: true
 					})
-				} else {
-					alert('You must be a member, in order to make an order')
-				}
+				// } else {
+				// 	alert('You must be a member, in order to make an order')
+				// }
 			}
 		}
 	}
