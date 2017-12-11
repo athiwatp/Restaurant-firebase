@@ -7,12 +7,16 @@
 					<h4 class="text-center">Registration</h4>
 				</v-card-title>
 				<v-card-text>
-					<v-text-field v-model="email" name="email" label="Email" type="email" required></v-text-field>
-					<v-text-field v-model="password" name="password" label="Password" type="password" required></v-text-field>
+					<v-text-field v-model="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
+					<v-text-field v-model="password" name="password" min="8" :append-icon="e1 ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (e1 = !e1)" :type="e1 ? 'password' : 'text'" hint="At least 8 characters" label="Password" required></v-text-field>
 					<v-text-field v-model="firstName" name="firstName" label="firstName:" type="text" required></v-text-field>
 					<v-text-field v-model="lastName" name="lastName" label="lastName:" type="text" required></v-text-field>
-					<v-text-field v-model="phone" name="phone" label="Phone" type="number"></v-text-field>
-					<v-text-field v-model="address" name="address" label="Address" type="text" multi-line></v-text-field>
+					<v-text-field v-model="phone" name="phone" label="Phone No" :mask="mask"></v-text-field>
+					<v-text-field v-model="address" name="address" type="text" multi-line>
+						<div slot="label">
+							Address <small>(optional)</small>
+						</div>
+					</v-text-field>
 					<v-btn block primary light class="white--text" @click.native.prevent="loginWithEmailLocal">Sign Up</v-btn>
 				</v-card-text>
 			</v-card>
@@ -44,6 +48,7 @@
 	export default {
 		data() {
 			return {
+				
 				email: '',
 				password: '',
 				firstName: '',
@@ -51,11 +56,21 @@
 				phone: '',
 				isMember: true,
 				isOrdered: false,
-				address: ''
+				mask: 'phone',
+				address: '',
+				rules: {
+					required: (value) => !!value || 'Required.',
+					email: (value) => {
+						const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+						return pattern.test(value) || 'Invalid e-mail.'
+					}
+				},
+				e1: false
 			}
 		},
 		computed: {
 			user() {
+				
 				return this.$store.getters.user;
 			}
 		},
@@ -117,7 +132,7 @@
 						}).catch(error => {
 							alert(error)
 						})
-				}else{
+				} else {
 					alert('Please fulfil')
 				}
 			}

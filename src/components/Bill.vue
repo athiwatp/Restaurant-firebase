@@ -25,6 +25,7 @@
 											<p>Time: {{ clickedSnap.info["time"] }}</p>
 											<p>Total: {{ clickedSnap.info["totalPrice"] }} Baht</p>
 											<p>Use Coupon: {{ clickedSnap.info["discount"] }}</p>
+											<p>Address: {{clickedSnap.info["address"]}}</p>
 										</div>
 									</v-card-title>
 	
@@ -40,6 +41,7 @@
 											<p>Time: {{ latestTransaction.info["time"] }}</p>
 											<p>Total: {{ latestTransaction.info["totalPrice"] }} Baht</p>
 											<p>Use Coupon: {{ latestTransaction.info["discount"] }}</p>
+											<p>Address: {{latestTransaction.info["address"]}}</p>
 										</div>
 									</v-card-title>
 									<app-bill-item :item="latestTransaction.list"></app-bill-item>

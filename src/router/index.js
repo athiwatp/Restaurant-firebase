@@ -16,7 +16,8 @@ import TableForm from '../components/TableForm.vue'
 import ReserveList from '../components/ReserveList.vue'
 import LogOut from '../components/LogOut.vue'
 import Profile from '../components/Profile.vue'
-import Analysis from '../components/Analysis.vue'
+import Exchange from '../components/Exchange.vue'
+
 
 Vue.use(Router)
 
@@ -102,9 +103,9 @@ export const routes = [
 		component: Profile
 	},
 	{
-		path: '/analysis',
-		name: 'Analysic', 
-		component: Analysis
+		path: '/exchange',
+		name: 'Exchange',
+		component: Exchange
 	},
 	{
 		path: '*',

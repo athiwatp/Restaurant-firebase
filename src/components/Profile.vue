@@ -39,6 +39,13 @@
                                     </div>
                                 </v-flex>
                             </v-layout>
+                            <v-layout wrap>
+                                <v-flex>
+                                    <v-subheader>
+                                        <p>Point: {{calPoint}}</p>
+                                    </v-subheader>
+                                </v-flex>
+                            </v-layout>
                             <v-btn block primary light class="white--text" @click.native.prevent="update">Update</v-btn>
                         </v-card-text>
                     </v-card>
@@ -61,7 +68,8 @@
                 phone: 0,
                 address: '',
                 isMember: false,
-                isOrdered: false
+                isOrdered: false,
+                point: 0
             }
         },
         created() {
@@ -70,16 +78,34 @@
                 var snap = snapshot.val()
                 console.log(snap)
                 vm.firstName = snap.firstName,
-                    vm.lastName = snap.lastName,
-                    vm.phone = snap.phone,
-                    vm.isMember = snap.isMember,
-                    vm.isOrdered = snap.isOrdered,
-                    vm.address = snap.address
+                vm.lastName = snap.lastName,
+                vm.phone = snap.phone,
+                vm.isMember = snap.isMember,
+                vm.isOrdered = snap.isOrdered,
+                vm.address = snap.address
             })
+
+        if(this.isMember){
+            if (this.isOrdered) {
+                console.log('Ordered')
+                ref.child('Transactions').child(this.user).on('value', snapshot => {
+                    var snap = snapshot.val()
+                    vm.point = Object.values(snap).length
+                })
+            }
+        }
+        },
+        mouted() {
+            var vm = this
+            
         },
         computed: {
             user() {
                 return this.$store.getters.user
+            },
+            calPoint() {
+                 this.point = this.point * 10
+                return this.point
             }
         },
         methods: {
@@ -90,7 +116,7 @@
                     lastName: vm.lastName,
                     phone: vm.phone,
                     address: vm.address
-                }).then( () => {
+                }).then(() => {
                     alert('Successfully updated')
                 }).catch(err => {
                     alert(err)

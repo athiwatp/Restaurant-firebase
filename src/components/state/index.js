@@ -39,9 +39,6 @@ export const store = new Vuex.Store({
                         resolve()
                     }
                 ).catch(error => {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    console.log('passw: ' + payload.password)
                     reject(error)
                 })
             })

@@ -195,6 +195,11 @@
 							link: '/profile'
 						},
 						{
+							icon: 'monetization_on',
+							title: 'Coupon',
+							link: '/exchange'
+						},
+						{
 							icon: 'lock',
 							title: 'Log Out',
 							link: '/logOut'
