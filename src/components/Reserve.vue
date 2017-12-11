@@ -1,6 +1,7 @@
 <template>
 	<v-container>
-		<v-layout row wrap>
+		<v-card >
+			<v-layout row wrap>
 			<v-flex class="text-xs-center">
 				<br>
 				<h4 class="primary--text">Reserve The Table</h4>
@@ -10,7 +11,7 @@
 			<v-flex xs12 sm6 offset-sm3>
 				<div>
 					<br>	
-						<h6>Name: {{ firstName }} {{ lastName }}</h6>					
+						<h5>Name: {{ firstName }} {{ lastName }}</h5>					
 					<v-text-field name="phone" v-model="phone" label="Phone" type="number" required></v-text-field>
 				</div>
 				<v-select :items="branches" v-model="branch" ref="branch" label="Branch" required>
@@ -36,13 +37,15 @@
 			<v-flex xs12 sm6 offset-xs2 offset-sm3 offset-md3>
 				<v-time-picker class="hidden-md-and-up" v-model="time"></v-time-picker>
 			</v-flex>
+			<br>
 		</v-layout>
-		<v-layout row>
-			<v-flex xs12 sm6 offset-sm3>
-				<br>
-				<v-btn block primary light class="white--text" @click.native.prevent="submitReserve">Submit</v-btn>
-			</v-flex>
-		</v-layout>
+		<v-card-actions>
+			<v-spacer></v-spacer>
+				<v-btn flat color="green"  @click.native.prevent="submitReserve">Submit</v-btn>
+		</v-card-actions>
+			
+		</v-card>
+		
 	
 		<!-- <v-layout>
 					<v-layout row wrap align-center>

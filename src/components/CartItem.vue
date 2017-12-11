@@ -2,15 +2,15 @@
 	<v-container>
 		<v-layout row>
 			<v-flex xs3 class="hidden-xs-only ma-3 text-xs-center">
-				<img :src="item.imgSrc" alt=""  width="220px">
+				<img :src="item.imgSrc" alt=""  width="200px">
 			</v-flex>
 			<v-flex xs2 class="ma-1">
 				<v-subheader>
 					{{ item.name }} 
 				</v-subheader>
 			</v-flex>
-			<v-flex xs1 class="ma-1">
-				<p>Price: {{ item.price }}</p>
+			<v-flex xs2 class="ma-1">
+				<v-chip outline color="green">Price: {{ item.price }}</v-chip>
 			</v-flex>
 			<v-flex xs1 class="ma-1">
 				<v-text-field v-model="item.quantity" name="quantity" label="Quantity" type="number"></v-text-field>
