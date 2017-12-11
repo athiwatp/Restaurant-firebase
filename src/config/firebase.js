@@ -2,7 +2,7 @@ import firebase from 'firebase'
 
 // Initialize Firebase
 var config = {
-	apiKey: "AIzaSyDQS5Qzyz_leENK1C26QOyif6tWmMS3Hjs",
+	apiKey: "YOUR-API",
 	authDomain: "restaurant-901d0.firebaseapp.com",
 	databaseURL: "https://restaurant-901d0.firebaseio.com",
 	projectId: "restaurant-901d0",
