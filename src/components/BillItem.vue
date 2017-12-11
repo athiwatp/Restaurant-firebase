@@ -12,9 +12,16 @@
                 </v-flex>
                 <v-flex xs12>
                     <div class="headline">{{key}}</div>
-                    <hr>
                     <br>
-                    <div>{{ i.description }}</div>
+                     <v-expansion-panel popout>
+                        <v-expansion-panel-content>
+                          <div slot="header">Description</div>
+                          <v-card-text class="grey lighten-3">
+                            {{ i.description }}
+                          </v-card-text>
+                        </v-expansion-panel-content>
+                     </v-expansion-panel>
+                  
                 </v-flex>
                 <v-flex xs12>
                   <br>

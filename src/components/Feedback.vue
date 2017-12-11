@@ -1,12 +1,12 @@
 <template>
 	<v-container>
-		<v-flex xs12 sm12>
+		<v-flex xs12 sm6 offset-sm3>
 			<v-card>
 				<v-card-title>
 					<h3 class="primary--text">Feedback</h3>
 				</v-card-title>
 				<v-card-text>
-					<p>{{user}}</p>
+					<p>Uid: {{user}}</p>
 					<p>Name: {{ firstName }} {{ lastName }}</p>
 					<v-select :items="branches" v-model="branch" ref="branch" label="Branch" required>
 					</v-select>

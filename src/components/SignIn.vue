@@ -20,7 +20,9 @@
 							type="password"
 							required></v-text-field>
 						<v-btn block primary light class="white--text" @click.native.prevent="loginWithEmailLocal">Log In</v-btn>
-						<v-btn block primary light class="white--text" @click.native.prevent="logOut">Sign Out</v-btn>
+						<div v-if="user">
+							<v-btn block primary light class="white--text" @click.native.prevent="logOut">Sign Out</v-btn>						
+						</div>
 						<br><hr><br>
 						<br><h4 class="primary--text">Have no account?</h4><br>
 						<v-btn block primary light class="white--text" @click.native.prevent="registerRoute">Register</v-btn>

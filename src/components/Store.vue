@@ -3,7 +3,7 @@
 		<br>
 			<v-layout row wrap justify-center>
 				<v-flex sm6 md3 lg3 v-for="(prod, idx) in menuList" :key="prod.id">
-						<app-menu-item :item="prod" :key="prod.id" :uid="user" :name="prod.menuName" ></app-menu-item>
+						<app-menu-item :item="prod" :key="idx" :uid="user" :name="prod.menuName" ></app-menu-item>
 				</v-flex>
 			</v-layout>
 	</v-container>

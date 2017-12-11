@@ -2,37 +2,35 @@
 	<v-container fluid>
 		<br>
 		<v-flex xs12 sm6 offset-sm3>
-			<v-card>
-				<v-card-title>
-					<h4 class="text-center">Registration</h4>
-				</v-card-title>
-				<v-card-text>
-					<v-text-field v-model="email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
-					<v-text-field v-model="password" name="password" min="8" :append-icon="e1 ? 'visibility_off' : 'visibility'" :append-icon-cb="() => (e1 = !e1)" :type="e1 ? 'password' : 'text'" hint="At least 8 characters" label="Password" required></v-text-field>
-					<v-text-field v-model="firstName" name="firstName" label="firstName:" type="text" required></v-text-field>
-					<v-text-field v-model="lastName" name="lastName" label="lastName:" type="text" required></v-text-field>
-					<v-text-field v-model="phone" name="phone" label="Phone No" :mask="mask"></v-text-field>
-					<v-text-field v-model="address" name="address" type="text" multi-line>
-						<div slot="label">
-							Address <small>(optional)</small>
-						</div>
-					</v-text-field>
-					<v-btn block primary light class="white--text" @click.native.prevent="loginWithEmailLocal">Sign Up</v-btn>
-				</v-card-text>
-			</v-card>
-		</v-flex>
-		<v-flex xs12 sm6 offset-sm3>
-			<div class="bind">
-				<br>
-				<h4>Binding</h4>
-				<hr>
-				<p>Email: {{ email }}</p>
-				<p>Password: {{ password }}</p>
-				<p>FirstName: {{ firstName }} </p>
-				<p>LastName: {{ lastName }}</p>
-				<p>Phone: {{ phone }}</p>
-				<p>{{user}}</p>
-			</div>
+			<v-form ref="form" lazy-validation>
+				<v-card>
+					<v-card-title>
+						<h4 class="primary--text">Registration</h4>
+					</v-card-title>
+					<v-card-text>
+						<br>
+						<v-text-field v-model="form.email" name="email" label="Email" type="email" :rules="[rules.required, rules.email]" required></v-text-field>
+						<v-text-field v-model="form.password" name="password" min="8" :append-icon="e1 ? 'visibility_off' : 'visibility'" 
+						:rules="[
+							() => !!form.password || 'This field is required',
+							() => !!form.password && form.password.length >= 8 || 'Password must be less than 8 characters'
+						]"
+						 :append-icon-cb="() => (e1 = !e1)" :type="e1 ? 'password' : 'text'" hint="At least 8 characters" ref="password" label="Password" required></v-text-field>
+						<v-text-field v-model="form.firstName" name="firstName" label="firstName" type="text" ref="firstName" :rules="[() => !!form.firstName || 'This field is required']" required></v-text-field>
+						<v-text-field v-model="form.lastName" name="lastName" label="lastName" type="text" ref="lastName" :rules="[() => !!form.lastName || 'This field is required']" required></v-text-field>
+						<v-text-field v-model="form.phone" name="phone" label="Phone No" :mask="mask"></v-text-field>
+						<v-text-field v-model="form.address" name="address" type="text" label="Address" ref="address" :rules="[() => !!form.address || 'This field is required']" required multi-line>
+	
+						</v-text-field>
+	
+					</v-card-text>
+					<v-card-actions>
+						<v-btn flat color="blue" @click.prevent="resetAll">Reset</v-btn>
+						<v-spacer></v-spacer>
+						<v-btn flat color="green" :disabled="!formIsValid" @click.native.prevent="loginWithEmailLocal">Sign Up</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-form>
 		</v-flex>
 	</v-container>
 </template>
@@ -47,17 +45,25 @@
 	
 	export default {
 		data() {
-			return {
-				
+			const defaultForm = Object.freeze({
+				firstName: '',
 				email: '',
 				password: '',
-				firstName: '',
 				lastName: '',
 				phone: '',
+				address: ''
+			})
+			return {
+				form: Object.assign({}, defaultForm),
+				// email: '',
+				// password: '',
+				// firstName: '',
+				// lastName: '',
+				// phone: '',
 				isMember: true,
 				isOrdered: false,
 				mask: 'phone',
-				address: '',
+				// address: '',
 				rules: {
 					required: (value) => !!value || 'Required.',
 					email: (value) => {
@@ -65,16 +71,32 @@
 						return pattern.test(value) || 'Invalid e-mail.'
 					}
 				},
-				e1: false
+				e1: true,
+				defaultForm
 			}
 		},
 		computed: {
 			user() {
-				
+	
 				return this.$store.getters.user;
+			},
+			validate() {
+				return this.$refs.form.validate();
+			},
+			formIsValid() {
+				return (
+					this.form.firstName &&
+					this.form.lastName &&
+					this.form.address &&
+					this.form.email &&
+					this.form.password
+				)
 			}
 		},
 		methods: {
+			resetAll() {
+				this.$refs.form.reset()
+			},
 			loginWithEmailLocal() {
 				// if (this.firstName && this.lastName && this.phone != '') {
 				// 	var self = this;
@@ -111,7 +133,7 @@
 				// 	alert('Please fullfil the fields')
 				// }
 				var vm = this;
-				if (this.firstName && this.lastName) {
+				if (this.$refs.form.validate()) {
 					this.$store.dispatch('signUp', {
 							email: this.email,
 							password: this.password

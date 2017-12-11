@@ -10,7 +10,6 @@
 			<v-flex xs12 sm6 offset-sm3>
 				<div>
 					<br>	
-						<h6>{{user}}</h6>
 						<h6>Name: {{ firstName }} {{ lastName }}</h6>					
 					<v-text-field name="phone" v-model="phone" label="Phone" type="number" required></v-text-field>
 				</div>
@@ -29,7 +28,6 @@
 				<v-date-picker class="hidden-md-and-up" v-model="date"></v-date-picker>
 			</v-flex>
 		</v-layout>
-		<h4>{{ date }}</h4>
 		<br>
 		<v-layout row wrap>
 			<v-flex xs12 sm6 offset-sm3>
@@ -39,9 +37,9 @@
 				<v-time-picker class="hidden-md-and-up" v-model="time"></v-time-picker>
 			</v-flex>
 		</v-layout>
-		<h4>{{ time }}</h4>
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
+				<br>
 				<v-btn block primary light class="white--text" @click.native.prevent="submitReserve">Submit</v-btn>
 			</v-flex>
 		</v-layout>

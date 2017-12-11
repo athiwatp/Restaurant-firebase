@@ -1,9 +1,9 @@
 <template>
     <v-container>
-        <v-flex xs12 sm12>
+        <v-flex xs12 sm6 offset-sm3>
             <v-card>
                 <v-card-title>
-                    <h4>Exchange Point</h4>
+                    <h4 class="primary--text">Exchange Point</h4>
                 </v-card-title>
                 <v-card-text>
                     <v-chip outline color="green">Point Available: {{point}}</v-chip>

@@ -1,6 +1,7 @@
 <template>
 	<v-container>
-		<table id="cart" class="table table-hover table-condensed">
+		<v-card>
+			<table id="cart" class="table table-hover table-condensed">
 			<thead>
 				<tr>
 					<th style="width:100%">Cart</th>
@@ -35,10 +36,14 @@
 					</v-chip>
 				</v-flex>
 	
-				<v-btn @click.prevent="submitCart">Submit</v-btn>
+				
 			</v-layout>
-	
 		</table>
+		<v-card-actions>
+			<v-spacer></v-spacer>
+			<v-btn flat color="green"@click.prevent="submitCart">Submit</v-btn>
+		</v-card-actions>
+		</v-card>
 	</v-container>
 </template>
 

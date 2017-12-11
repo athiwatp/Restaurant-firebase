@@ -2,11 +2,11 @@
     <v-container>
         <div v-if="user">
             <v-layout row wrap>
-                <v-flex>
+                <v-flex xs12 sm6 offset-sm3>
                     <v-card>
                         <br>
                         <v-card-title>
-                            <h4 class="text-xs-center">Profile</h4>
+                            <h4 class="primary--text">Profile</h4>
                         </v-card-title>
                         <v-card-text>
                             <v-text-field v-model="firstName" name="firstName" label="firstName" type="text" required></v-text-field>

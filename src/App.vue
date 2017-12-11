@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" enable-resize-watcher app>
+		<v-navigation-drawer  :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" enable-resize-watcher app>
 			<v-list>
 				<v-list-tile v-for="(item, i) in menuItem" :key="i" router :to="item.link">
 					<v-list-tile-action>
@@ -15,8 +15,8 @@
 	
 		<v-toolbar fixed app :clipped-left="clipped">
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-			<v-toolbar-title>
-				<router-link to="/" tag="span" style="cursor: pointer"><v-icon>tag_faces</v-icon> Halal Ju Ku</router-link>
+			<v-toolbar-title class="primary--text">
+				<router-link to="/" tag="span" style="cursor: pointer"><v-icon color="blue darken-2">tag_faces</v-icon> Halal Ju Ku</router-link>
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn flat v-for="(item, i) in menuItem" :key="i" router :to="item.link">

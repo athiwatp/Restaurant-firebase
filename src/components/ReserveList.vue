@@ -6,18 +6,19 @@
 	
 			<div v-if="exist">
 				<div class="ma-3" v-for="(item, key) in reserveList">
-					<v-card color="cyan darken-1" class="white--text">
-						<v-container>
+					<v-card >
+						<v-card-text>
 							<p>Name: {{ item.firstName }} {{ item.lastName}}</p>
 							<p>Phone: {{ item.phone }}</p>
-							<p>Date: {{ item.date }}</p>
-							<p>Time: {{ item.time }}</p>
-							<p>Branch: {{ item.branch }}</p>
-							<p>Seats: {{ item.seats }}</p>
-						</v-container>
-						<div>
-							<v-btn @click.prevent="cancelReserve(key)">Cancel</v-btn>
-						</div>
+						</v-card-text>
+						<v-card-actions>
+							<v-chip outline color="green">{{item.seats}} Seat</v-chip>
+							<v-chip outline color="primary">{{item.date}}</v-chip>
+							<v-chip outline color="primary">{{item.time}}</v-chip>
+							<v-chip outline color="primary">{{item.branch}}</v-chip>
+							<v-spacer></v-spacer>
+							<v-btn flat color="red" @click.prevent="cancelReserve(key)">Cancel</v-btn>
+						</v-card-actions>
 					</v-card>
 				</div>
 			</div>

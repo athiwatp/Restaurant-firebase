@@ -1,7 +1,8 @@
 <template>
 	<v-container>
 		<br>
-		<v-card>
+		<v-flex xs12 sm6 offset-sm3>
+			<v-card>
 			<v-card-title>
 				<v-flex xs6>
 					<h4>{{ name }}</h4>
@@ -26,6 +27,7 @@
 			</v-container>
 			
 		</v-card>
+		</v-flex>
 	</v-container>
 </template>
 

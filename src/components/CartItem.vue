@@ -19,7 +19,7 @@
 					Subtotal: {{ subTotal(item.quantity, item.price) }} baht
 			</v-flex>
 			<v-flex xs3>
-				<v-btn @click.prevent="deleteItem(eachKey)">Delete</v-btn>
+				<v-btn @click.prevent="deleteItem(eachKey)">Remove</v-btn>
 			</v-flex>
 		</v-layout>
 	</v-container>
