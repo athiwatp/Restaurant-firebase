@@ -1,6 +1,7 @@
 # restaurant
 
 > A Vue.js project
+>Live: restaurant-901d0.firebaseapp.com
 
 ## Build Setup
 
